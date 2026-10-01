@@ -383,21 +383,29 @@ export async function api<T>(
     }
 
     if (
-      schoolPatch &&
-      method === 'DELETE'
-    ) {
-      const { error } = await supabase
-        .from('schools')
-        .delete()
-        .eq(
-          'id',
-          Number(schoolPatch[1])
-        );
+  schoolPatch &&
+  method === 'DELETE'
+) {
+  const schoolId = Number(schoolPatch[1]);
 
-      if (error) fail(error);
+  // Delete the school's scores first.
+  const { error: scoreError } = await supabase
+    .from('scores')
+    .delete()
+    .eq('school_id', schoolId);
 
-      return undefined as T;
-    }
+  if (scoreError) fail(scoreError);
+
+  // Then delete the school itself.
+  const { error: schoolError } = await supabase
+    .from('schools')
+    .delete()
+    .eq('id', schoolId);
+
+  if (schoolError) fail(schoolError);
+
+  return undefined as T;
+}
 
     const roundPatch = path.match(
       /^\/api\/rounds\/(\d+)$/
