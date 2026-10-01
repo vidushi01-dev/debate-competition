@@ -1,0 +1,26 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+
+:root{
+  --maroon:#3A0F0F; --gold:#D4AF37; --cream:#F7E9D7; --brown:#6B4F3B; --gold-muted:#B88B4A;
+  --ink:#2A1810; --ok:#3F7A5C; --bad:#A6403A; --pending:#8A8378;
+}
+body{ background:var(--maroon); color:var(--cream); font-family:Montserrat,system-ui,sans-serif; margin:0; }
+h1,h2,h3,.font-display{ font-family:'Playfair Display',Georgia,serif; }
+.font-hindi{ font-family:'Noto Serif Devanagari',serif; }
+:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+/* Thin gold divider used throughout instead of hard borders */
+.gold-rule{ height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent); border:none; }
+
+/* Subtle ornamental corner flourish — CSS only, no image assets required */
+.ornament-corner{ position:relative; }
+.ornament-corner::before{ content:''; position:absolute; top:8px; left:8px; width:28px; height:28px; border-top:1px solid var(--gold); border-left:1px solid var(--gold); opacity:.55; pointer-events:none; }
+.ornament-corner::after{ content:''; position:absolute; bottom:8px; right:8px; width:28px; height:28px; border-bottom:1px solid var(--gold); border-right:1px solid var(--gold); opacity:.55; pointer-events:none; }
+
+/* Very slow drifting background wash for the hero — respects reduced motion */
+.hero-bg{ background: radial-gradient(ellipse at 30% 20%, rgba(212,175,55,.10), transparent 55%), radial-gradient(ellipse at 80% 80%, rgba(212,175,55,.08), transparent 50%), var(--maroon); background-size:180% 180%; animation: drift 40s ease-in-out infinite alternate; }
+@keyframes drift{ from{ background-position:0% 0%; } to{ background-position:100% 60%; } }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
